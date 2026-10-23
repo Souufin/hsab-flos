@@ -3,90 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>حساب الفلوس 💰</title>
-<meta name="description" content="واجهة بسيطة لحساب فلوسك: 200 و100 درهم، الأساسي، اللي كتصرف منو، السلف، وشحال كتسال الناس.">
+<title>حساب الفلوس</title>
+<meta name="description" content="واجهة كبيرة وبسيطة: مجموع المال اللي عندي، الأساسي، اللي كنصرف منو، السلف، وشحال كنسال الناس.">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:#f0f4f0;color:#1c2b1c}
-header{background:#0b6e4f;color:#fff;padding:20px 16px;text-align:center}header h1{margin:0;font-size:26px}header p{margin:8px 0 0;opacity:.9}
-main{max-width:560px;margin:0 auto;padding:16px 16px 40px}
-.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:16px}
-.card h2{margin:0 0 12px}
-.total{background:#ffc53d;border-radius:16px;padding:18px;text-align:center;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.total small{display:block;font-size:15px}.total b{font-size:38px}
-.row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #eee}.row:last-child{border:0}
-.denom{flex:1}.denom b{display:block;font-size:20px}.denom span{font-size:13px;color:#666}
-button{font-family:inherit;cursor:pointer}.minus,.plus{width:46px;height:46px;border:0;border-radius:50%;font-size:24px;background:#eef3ee}.plus{background:#0b6e4f;color:#fff}
-.count{min-width:44px;text-align:center;font-size:22px;font-weight:800}.sub{width:100px;text-align:left;font-weight:700}
-input,select{width:100%;padding:13px;border:1px solid #ccc;border-radius:12px;font-size:16px;font-family:inherit;margin-bottom:10px}
-.big-btn{width:100%;padding:14px;border:0;border-radius:12px;font-size:17px;font-weight:700;background:#0b6e4f;color:#fff}
-.ghost{width:100%;padding:12px;border:0;border-radius:12px;font-size:15px;font-weight:700;background:#eef3ee;margin-top:10px}
-.pot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
-.pot:last-child{border:0}.pot label{font-weight:700;font-size:17px}.pot input{width:150px;margin:0;text-align:left;font-weight:700}
-.person{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
-.person button{border:0;background:none;color:#c00;font-size:20px}
-.muted{color:#666;font-size:14px}
-footer{text-align:center;color:#666;font-size:13px;padding:10px}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:#e8e8e8;color:#222}
+header{background:#333;color:#fff;padding:28px 20px;text-align:center}header h1{margin:0;font-size:38px}header p{margin:10px 0 0;font-size:20px;color:#ddd}
+main{max-width:700px;margin:0 auto;padding:22px 20px 50px}
+.card{background:#fff;border-radius:20px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.12);margin-bottom:22px}
+.card h2{margin:0 0 18px;font-size:28px}
+.total-card{background:#fff;border:3px solid #333;border-radius:22px;padding:28px;text-align:center;margin-bottom:22px}
+.total-card label{display:block;font-size:26px;font-weight:800;margin-bottom:14px}
+.total-card input{width:100%;padding:20px;border:2px solid #999;border-radius:16px;font-size:52px;font-weight:900;text-align:center;font-family:inherit;background:#f7f7f7}
+.total-card .unit{font-size:24px;font-weight:700;margin-top:10px;color:#555}
+input,select{width:100%;padding:18px;border:2px solid #bbb;border-radius:14px;font-size:22px;font-family:inherit;margin-bottom:14px;background:#fff}
+.pot{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 0;border-bottom:2px solid #eee}
+.pot:last-child{border:0}.pot label{font-weight:800;font-size:23px}.pot input{width:200px;margin:0;text-align:left;font-weight:800;font-size:24px}
+.big-btn{width:100%;padding:20px;border:0;border-radius:16px;font-size:24px;font-weight:800;cursor:pointer;background:#333;color:#fff}
+.person{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:2px solid #eee;font-size:21px}
+.person button{border:0;background:none;color:#666;font-size:26px;cursor:pointer}
+.muted{color:#666;font-size:19px}
+.summary{font-size:22px;line-height:1.8}
+footer{text-align:center;color:#666;font-size:18px;padding:14px}
 </style>
 </head>
 <body>
-<header><h1>💰 حساب الفلوس</h1><p>بسيط: عد، قسّم، وعرف شحال كتسال الناس</p></header>
+<header><h1>حساب الفلوس</h1><p>كبير، بسيط، وواضح</p></header>
 <main>
 
-<div class="total"><small>💵 المبلغ الإجمالي (من عد الفلوس)</small><b id="grandTotal">0 درهم</b><div id="cashSummary">0 ورقة</div></div>
-
-<div class="card"><h2>🪙 عد الفلوس</h2>
-<div class="row"><div class="denom"><b>200 درهم</b><span>ورقة نقدية</span></div>
-<button class="minus" onclick="change(200,-1)">−</button><span class="count" id="c-200">0</span><button class="plus" onclick="change(200,1)">+</button><span class="sub" id="s-200">0 درهم</span></div>
-<div class="row"><div class="denom"><b>100 درهم</b><span>ورقة نقدية</span></div>
-<button class="minus" onclick="change(100,-1)">−</button><span class="count" id="c-100">0</span><button class="plus" onclick="change(100,1)">+</button><span class="sub" id="s-100">0 درهم</span></div>
-<button class="ghost" onclick="resetCash()">🔄 تصفير العد</button>
+<div class="total-card">
+<label for="totalMoney">مجموع المال اللي عندي</label>
+<input id="totalMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()">
+<div class="unit">درهم</div>
 </div>
 
-<div class="card"><h2>🏦 فلوسي مقسّمة</h2>
-<div class="pot"><label>📌 الأساسي</label><input id="pot-main" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
-<div class="pot"><label>🛒 اللي كنستعملو وكنصرف منو</label><input id="pot-spend" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
-<div class="pot"><label>🤝 السلف</label><input id="pot-loan" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
-<p class="muted" style="margin:10px 0 0">مجموع التقسيم: <b id="potsTotal">0 درهم</b> — كيتحفظ بوحدو في جهازك.</p>
+<div class="card"><h2>فلوسي مقسّمة</h2>
+<div class="pot"><label>الأساسي</label><input id="pot-main" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
+<div class="pot"><label>اللي كنستعملو وكنصرف منو</label><input id="pot-spend" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
+<div class="pot"><label>السلف</label><input id="pot-loan" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
+<p class="muted" style="margin:14px 0 0">مجموع التقسيم: <b id="potsTotal">0 درهم</b></p>
 </div>
 
-<div class="card"><h2>👥 شحال كنسال الناس</h2>
-<p class="muted" style="margin-top:0">زيد كل واحد بسميتو والمبلغ: واش كيسالك (كيسالني) ولا كتسالو (كنسالو).</p>
+<div class="card"><h2>شحال كنسال الناس</h2>
+<p class="muted" style="margin-top:0">زيد كل واحد بسميتو والمبلغ.</p>
 <input id="personName" placeholder="سمية الشخص">
 <input id="personAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ بالدرهم">
 <select id="personDir">
 <option value="owes-me">كيسالني (هو كيسال ليا)</option>
 <option value="i-owe">كنسالو (أنا كنسـال ليه)</option>
 </select>
-<button class="big-btn" onclick="addPerson()">➕ زيد الشخص</button>
-<div id="peopleList" style="margin-top:12px"></div>
-<p style="margin:12px 0 0">كيسالوني الناس: <b id="owedToMe">0 درهم</b><br>كنسال الناس: <b id="owedByMe">0 درهم</b></p>
+<button class="big-btn" onclick="addPerson()">زيد الشخص</button>
+<div id="peopleList" style="margin-top:16px"></div>
+<p class="summary" style="margin:16px 0 0">كيسالوني الناس: <b id="owedToMe">0 درهم</b><br>كنسال الناس: <b id="owedByMe">0 درهم</b></p>
 </div>
 
-<div class="card"><button class="big-btn" onclick="copyAll()">📋 نسخ الملخص كامل</button></div>
-<footer>كيتحفظ غير في جهازك • بلا أنترنيت • صُنع للمغاربة 🇲🇦</footer>
+<div class="card"><button class="big-btn" onclick="copyAll()">نسخ الملخص كامل</button></div>
+<footer>كيتحفظ غير في جهازك • بلا أنترنيت</footer>
 </main>
 <script>
 function fmt(n){return (Math.round(n*100)/100).toLocaleString('ar-MA')+" درهم";}
-let counts={200:0,100:0};
-function loadCounts(){try{const c=JSON.parse(localStorage.getItem('hsab_counts')||'{}');if(c[200]!=null)counts[200]=c[200];if(c[100]!=null)counts[100]=c[100];}catch(e){}}
-function saveCounts(){localStorage.setItem('hsab_counts',JSON.stringify(counts));}
-function renderCash(){
- document.getElementById('c-200').textContent=counts[200];
- document.getElementById('s-200').textContent=fmt(200*counts[200]);
- document.getElementById('c-100').textContent=counts[100];
- document.getElementById('s-100').textContent=fmt(100*counts[100]);
- const total=200*counts[200]+100*counts[100];
- document.getElementById('grandTotal').textContent=fmt(total);
- document.getElementById('cashSummary').textContent=(counts[200]+counts[100])+" ورقة";
-}
-function change(v,d){counts[v]=Math.max(0,counts[v]+d);saveCounts();renderCash();}
-function resetCash(){counts={200:0,100:0};saveCounts();renderCash();}
-function potVal(id){const v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
+function num(id){const v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
+function saveTotal(){localStorage.setItem('hsab_total',document.getElementById('totalMoney').value||'');}
+function loadTotal(){const v=localStorage.getItem('hsab_total');if(v!=null)document.getElementById('totalMoney').value=v;}
 function savePots(){
- localStorage.setItem('hsab_pots',JSON.stringify({main:potVal('pot-main'),spend:potVal('pot-spend'),loan:potVal('pot-loan')}));
+ localStorage.setItem('hsab_pots',JSON.stringify({main:num('pot-main'),spend:num('pot-spend'),loan:num('pot-loan')}));
  renderPots();}
-function renderPots(){
- document.getElementById('potsTotal').textContent=fmt(potVal('pot-main')+potVal('pot-spend')+potVal('pot-loan'));}
+function renderPots(){document.getElementById('potsTotal').textContent=fmt(num('pot-main')+num('pot-spend')+num('pot-loan'));}
 function loadPots(){try{const p=JSON.parse(localStorage.getItem('hsab_pots')||'{}');if(p.main!=null)document.getElementById('pot-main').value=p.main;if(p.spend!=null)document.getElementById('pot-spend').value=p.spend;if(p.loan!=null)document.getElementById('pot-loan').value=p.loan;}catch(e){}renderPots();}
 function getPeople(){try{return JSON.parse(localStorage.getItem('hsab_people')||'[]')}catch(e){return[]}}
 function renderPeople(){
@@ -96,7 +77,7 @@ function renderPeople(){
  document.getElementById('owedToMe').textContent=fmt(toMe);
  document.getElementById('owedByMe').textContent=fmt(byMe);
  if(!items.length){el.innerHTML='<p class="muted">مازال ما زدتي حتى واحد.</p>';return;}
- el.innerHTML=items.map((it,i)=>`<div class="person"><div><b>${it.name}</b><br><small class="muted">${it.dir==='owes-me'?'كيسالني':'كنسالو'}</small></div><div>${fmt(Number(it.amount))} <button onclick="delPerson(${i})">✕</button></div></div>`).join('');}
+ el.innerHTML=items.map((it,i)=>`<div class="person"><div><b>${it.name}</b><br><span class="muted">${it.dir==='owes-me'?'كيسالني':'كنسالو'}</span></div><div>${fmt(Number(it.amount))} <button onclick="delPerson(${i})">✕</button></div></div>`).join('');}
 function addPerson(){
  const name=document.getElementById('personName').value.trim();
  const amount=parseFloat(document.getElementById('personAmount').value);
@@ -107,14 +88,14 @@ function addPerson(){
  document.getElementById('personName').value='';document.getElementById('personAmount').value='';renderPeople();}
 function delPerson(i){const items=getPeople();items.splice(i,1);localStorage.setItem('hsab_people',JSON.stringify(items));renderPeople();}
 function copyAll(){
- const t='المبلغ الإجمالي: '+document.getElementById('grandTotal').textContent
- +'\nالأساسي: '+fmt(potVal('pot-main'))
- +'\nاللي كنصرف منو: '+fmt(potVal('pot-spend'))
- +'\nالسلف: '+fmt(potVal('pot-loan'))
+ const t='مجموع المال اللي عندي: '+fmt(num('totalMoney'))
+ +'\nالأساسي: '+fmt(num('pot-main'))
+ +'\nاللي كنصرف منو: '+fmt(num('pot-spend'))
+ +'\nالسلف: '+fmt(num('pot-loan'))
  +'\nكيسالوني الناس: '+document.getElementById('owedToMe').textContent
  +'\nكنسال الناس: '+document.getElementById('owedByMe').textContent;
  if(navigator.clipboard)navigator.clipboard.writeText(t);alert(t);}
-loadCounts();renderCash();loadPots();renderPeople();
+loadTotal();loadPots();renderPeople();
 </script>
 </body>
 </html>
