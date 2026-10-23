@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>حساب الفلوس</title>
-<meta name="description" content="واجهة كبيرة وبسيطة: مجموع المال اللي عندي، الأساسي، اللي كنصرف منو، السلف، وشحال كنسال الناس.">
+<meta name="description" content="واجهة كبيرة وبسيطة: مجموع المال اللي عندي، الأساسي، اللي كنصرف منو، السلف، الاقتطاعات، وشحال كنسال الناس.">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:#e8e8e8;color:#222}
 header{background:#333;color:#fff;padding:28px 20px;text-align:center}header h1{margin:0;font-size:38px}header p{margin:10px 0 0;font-size:20px;color:#ddd}
@@ -27,48 +27,69 @@ footer{text-align:center;color:#666;font-size:18px;padding:14px}
 </style>
 </head>
 <body>
-<header><h1>حساب الفلوس</h1><p>كبير، بسيط، وواضح</p></header>
+<header><h1>حساب الفلوس</h1></header>
 <main>
 
 <div class="total-card">
 <label for="totalMoney">مجموع المال اللي عندي</label>
 <input id="totalMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()">
 <div class="unit">درهم</div>
+<div id="topDedLine" style="font-size:26px;font-weight:800;margin-top:14px">كتنقص: 0 درهم • الباقي: 0 درهم</div>
 </div>
 
 <div class="card"><h2>فلوسي مقسّمة</h2>
 <div class="pot"><label>الأساسي</label><input id="pot-main" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
-<div class="pot"><label>اللي كنستعملو وكنصرف منو</label><input id="pot-spend" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
+<div class="pot"><label>كنصرف منو</label><input id="pot-spend" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
 <div class="pot"><label>السلف</label><input id="pot-loan" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
-<p class="muted" style="margin:14px 0 0">مجموع التقسيم: <b id="potsTotal">0 درهم</b></p>
 </div>
 
-<div class="card"><h2>شحال كنسال الناس</h2>
-<p class="muted" style="margin-top:0">زيد كل واحد بسميتو والمبلغ.</p>
-<input id="personName" placeholder="سمية الشخص">
-<input id="personAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ بالدرهم">
+<div class="card"><h2>الاقتطاعات</h2>
+<input id="dedName" placeholder="الاسم">
+<input id="dedAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ">
+<button class="big-btn" onclick="addDed()">زيد</button>
+<div id="dedList" style="margin-top:16px"></div>
+<p style="font-size:28px;line-height:1.6;margin:16px 0 0">كتنقص: <b id="dedTotal">0 درهم</b><br>الباقي: <b id="remaining">0 درهم</b></p>
+</div>
+
+<div class="card"><h2>كنسال الناس</h2>
+<input id="personName" placeholder="الاسم">
+<input id="personAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ">
 <select id="personDir">
-<option value="owes-me">كيسالني (هو كيسال ليا)</option>
-<option value="i-owe">كنسالو (أنا كنسـال ليه)</option>
+<option value="owes-me">كيسالني</option>
+<option value="i-owe">كنسالو</option>
 </select>
-<button class="big-btn" onclick="addPerson()">زيد الشخص</button>
+<button class="big-btn" onclick="addPerson()">زيد</button>
 <div id="peopleList" style="margin-top:16px"></div>
-<p class="summary" style="margin:16px 0 0">كيسالوني الناس: <b id="owedToMe">0 درهم</b><br>كنسال الناس: <b id="owedByMe">0 درهم</b></p>
+<p style="font-size:24px;margin:16px 0 0">كيسالوني: <b id="owedToMe">0 درهم</b> • كنسال: <b id="owedByMe">0 درهم</b></p>
 </div>
 
-<div class="card"><button class="big-btn" onclick="copyAll()">نسخ الملخص كامل</button></div>
-<footer>كيتحفظ غير في جهازك • بلا أنترنيت</footer>
+<div class="card"><button class="big-btn" onclick="copyAll()">نسخ</button></div>
 </main>
 <script>
 function fmt(n){return (Math.round(n*100)/100).toLocaleString('ar-MA')+" درهم";}
 function num(id){const v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
-function saveTotal(){localStorage.setItem('hsab_total',document.getElementById('totalMoney').value||'');}
+function saveTotal(){localStorage.setItem('hsab_total',document.getElementById('totalMoney').value||'');renderDed();}
+function getDed(){try{return JSON.parse(localStorage.getItem('hsab_ded')||'[]')}catch(e){return[]}}
+function renderDed(){
+ const items=getDed();const el=document.getElementById('dedList');
+ let total=0;items.forEach(it=>total+=Number(it.amount));
+ document.getElementById('dedTotal').textContent=fmt(total);
+ document.getElementById('remaining').textContent=fmt(num('totalMoney')-total);
+ document.getElementById('topDedLine').textContent='كتنقص: '+fmt(total)+' • الباقي: '+fmt(num('totalMoney')-total);
+ if(!items.length){el.innerHTML='<p class="muted">لا شيء.</p>';return;}
+ el.innerHTML=items.map((it,i)=>`<div class="person"><div><b>${it.name}</b></div><div>${fmt(Number(it.amount))} <button onclick="delDed(${i})">✕</button></div></div>`).join('');}
+function addDed(){
+ const name=document.getElementById('dedName').value.trim();
+ const amount=parseFloat(document.getElementById('dedAmount').value);
+ if(!name||!amount||amount<=0){alert('كتب شنو الاقتطاع والمبلغ');return;}
+ const items=getDed();items.unshift({name,amount});
+ localStorage.setItem('hsab_ded',JSON.stringify(items));
+ document.getElementById('dedName').value='';document.getElementById('dedAmount').value='';renderDed();}
+function delDed(i){const items=getDed();items.splice(i,1);localStorage.setItem('hsab_ded',JSON.stringify(items));renderDed();}
 function loadTotal(){const v=localStorage.getItem('hsab_total');if(v!=null)document.getElementById('totalMoney').value=v;}
 function savePots(){
- localStorage.setItem('hsab_pots',JSON.stringify({main:num('pot-main'),spend:num('pot-spend'),loan:num('pot-loan')}));
- renderPots();}
-function renderPots(){document.getElementById('potsTotal').textContent=fmt(num('pot-main')+num('pot-spend')+num('pot-loan'));}
-function loadPots(){try{const p=JSON.parse(localStorage.getItem('hsab_pots')||'{}');if(p.main!=null)document.getElementById('pot-main').value=p.main;if(p.spend!=null)document.getElementById('pot-spend').value=p.spend;if(p.loan!=null)document.getElementById('pot-loan').value=p.loan;}catch(e){}renderPots();}
+ localStorage.setItem('hsab_pots',JSON.stringify({main:num('pot-main'),spend:num('pot-spend'),loan:num('pot-loan')}));}
+function loadPots(){try{const p=JSON.parse(localStorage.getItem('hsab_pots')||'{}');if(p.main!=null)document.getElementById('pot-main').value=p.main;if(p.spend!=null)document.getElementById('pot-spend').value=p.spend;if(p.loan!=null)document.getElementById('pot-loan').value=p.loan;}catch(e){}}
 function getPeople(){try{return JSON.parse(localStorage.getItem('hsab_people')||'[]')}catch(e){return[]}}
 function renderPeople(){
  const items=getPeople();const el=document.getElementById('peopleList');
@@ -76,7 +97,7 @@ function renderPeople(){
  items.forEach(it=>{if(it.dir==='owes-me')toMe+=Number(it.amount);else byMe+=Number(it.amount);});
  document.getElementById('owedToMe').textContent=fmt(toMe);
  document.getElementById('owedByMe').textContent=fmt(byMe);
- if(!items.length){el.innerHTML='<p class="muted">مازال ما زدتي حتى واحد.</p>';return;}
+ if(!items.length){el.innerHTML='<p class="muted">لا شيء.</p>';return;}
  el.innerHTML=items.map((it,i)=>`<div class="person"><div><b>${it.name}</b><br><span class="muted">${it.dir==='owes-me'?'كيسالني':'كنسالو'}</span></div><div>${fmt(Number(it.amount))} <button onclick="delPerson(${i})">✕</button></div></div>`).join('');}
 function addPerson(){
  const name=document.getElementById('personName').value.trim();
@@ -88,14 +109,16 @@ function addPerson(){
  document.getElementById('personName').value='';document.getElementById('personAmount').value='';renderPeople();}
 function delPerson(i){const items=getPeople();items.splice(i,1);localStorage.setItem('hsab_people',JSON.stringify(items));renderPeople();}
 function copyAll(){
- const t='مجموع المال اللي عندي: '+fmt(num('totalMoney'))
+ const t='المجموع: '+fmt(num('totalMoney'))
  +'\nالأساسي: '+fmt(num('pot-main'))
- +'\nاللي كنصرف منو: '+fmt(num('pot-spend'))
+ +'\nكنصرف منو: '+fmt(num('pot-spend'))
  +'\nالسلف: '+fmt(num('pot-loan'))
- +'\nكيسالوني الناس: '+document.getElementById('owedToMe').textContent
- +'\nكنسال الناس: '+document.getElementById('owedByMe').textContent;
+ +'\nكتنقص: '+document.getElementById('dedTotal').textContent
+ +'\nالباقي: '+document.getElementById('remaining').textContent
+ +'\nكيسالوني: '+document.getElementById('owedToMe').textContent
+ +'\nكنسال: '+document.getElementById('owedByMe').textContent;
  if(navigator.clipboard)navigator.clipboard.writeText(t);alert(t);}
-loadTotal();loadPots();renderPeople();
+loadTotal();loadPots();renderDed();renderPeople();
 </script>
 </body>
 </html>
