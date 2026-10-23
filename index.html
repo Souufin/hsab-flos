@@ -7,31 +7,31 @@
 <meta name="description" content="حساب الفلوس: الرصيد، الاقتطاعات كمعاملات، والتقسيم، وشحال كنسال الناس.">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:#12081f;color:#fff;padding-bottom:30px}
-header{padding:22px 20px 0;display:flex;align-items:center;justify-content:space-between}
-.avatar{width:64px;height:64px;border-radius:50%;background:#1e1033;border:3px dashed #e5488a;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:#8b5cf6}
-.welcome{flex:1;padding:0 14px}.welcome small{color:#bbb;font-size:16px}.welcome b{display:block;font-size:26px}
-.icon-btn{width:52px;height:52px;border-radius:50%;border:1px solid #444;background:linear-gradient(180deg,#3a3a4a,#1c1c28);color:#fff;font-size:24px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 4px 10px rgba(0,0,0,.4)}
-main{max-width:700px;margin:0 auto;padding:10px 20px}
-.balance{text-align:center;padding:34px 10px 10px}.balance small{color:#bbb;font-size:18px}.balance .amt{font-size:52px;font-weight:900;letter-spacing:1px;margin-top:6px}
-.balance input{width:100%;background:transparent;border:0;border-bottom:2px solid #444;color:#fff;font-size:52px;font-weight:900;text-align:center;font-family:inherit;outline:none}
+header{padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.avatar{width:46px;height:46px;border-radius:50%;background:#1e1033;border:2px dashed #e5488a;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#8b5cf6}
+.welcome{flex:1;padding:0 10px}.welcome small{color:#bbb;font-size:13px}.welcome b{display:block;font-size:20px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid #444;background:linear-gradient(180deg,#3a3a4a,#1c1c28);color:#fff;font-size:19px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 4px 10px rgba(0,0,0,.4)}
+main{max-width:520px;margin:0 auto;padding:8px 16px}
+.balance{text-align:center;padding:20px 8px 6px}.balance small{color:#bbb;font-size:14px}.balance .amt{font-size:36px;font-weight:900;letter-spacing:1px;margin-top:4px}
+.balance input{width:100%;background:transparent;border:0;border-bottom:2px solid #444;color:#fff;font-size:36px;font-weight:900;text-align:center;font-family:inherit;outline:none}
 .balance input:focus{border-color:#8b5cf6}
-.eye{background:none;border:0;color:#fff;font-size:30px;cursor:pointer;vertical-align:middle}
-.remain{color:#bbb;font-size:20px;margin-top:12px}.remain b{color:#fff}
-.actions{display:flex;gap:12px;overflow-x:auto;padding:18px 0;scrollbar-width:none}.actions::-webkit-scrollbar{display:none}
-.pill{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:16px 22px;border-radius:999px;border:1px solid #555;background:linear-gradient(180deg,#3d3d4d,#22222e);color:#fff;font-size:19px;font-weight:700;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 14px rgba(0,0,0,.45);white-space:nowrap}
+.eye{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;vertical-align:middle}
+.remain{color:#bbb;font-size:15px;margin-top:8px}.remain b{color:#fff}
+.actions{display:flex;gap:10px;overflow-x:auto;padding:12px 0;scrollbar-width:none}.actions::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:11px 17px;border-radius:999px;border:1px solid #555;background:linear-gradient(180deg,#3d3d4d,#22222e);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 10px rgba(0,0,0,.45);white-space:nowrap}
 .pill:active{transform:translateY(2px)}
-.card{background:#23232e;border-radius:22px;padding:20px;margin:18px 0}
-.card h2{margin:0 0 16px;font-size:24px}
-.tx{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #333}.tx:last-child{border:0}
-.tx .bar{border-right:4px solid #fff;padding-right:12px}.tx b{font-size:19px}.tx small{color:#aaa;font-size:15px}
-.tx .amt{font-size:20px;font-weight:800;white-space:nowrap}.tx button{background:none;border:0;color:#888;font-size:22px;cursor:pointer}
-input,select{width:100%;padding:16px;border:1px solid #444;border-radius:14px;font-size:20px;font-family:inherit;margin-bottom:12px;background:#2a2a38;color:#fff}
+.card{background:#23232e;border-radius:18px;padding:16px;margin:14px 0}
+.card h2{margin:0 0 12px;font-size:19px}
+.tx{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #333}.tx:last-child{border:0}
+.tx .bar{border-right:3px solid #fff;padding-right:10px}.tx b{font-size:16px}.tx small{color:#aaa;font-size:13px}
+.tx .amt{font-size:16px;font-weight:800;white-space:nowrap}.tx button{background:none;border:0;color:#888;font-size:19px;cursor:pointer}
+input,select{width:100%;padding:12px;border:1px solid #444;border-radius:12px;font-size:16px;font-family:inherit;margin-bottom:10px;background:#2a2a38;color:#fff}
 input::placeholder{color:#888}
-.pot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #333}
-.pot:last-child{border:0}.pot label{font-weight:700;font-size:21px}.pot input{width:180px;margin:0;text-align:left;font-weight:800}
-.big3d{display:block;width:70%;min-width:260px;margin:6px auto 0;padding:18px;border:1px solid #111;border-radius:999px;font-size:22px;font-weight:800;cursor:pointer;background:linear-gradient(180deg,#8b5cf6,#5b21b6);color:#fff;text-align:center;box-shadow:0 6px 0 #2e1065,0 12px 20px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.4)}
-.big3d:active{transform:translateY(5px);box-shadow:0 1px 0 #2e1065,0 4px 10px rgba(0,0,0,.4)}
-.muted{color:#aaa;font-size:18px}
+.pot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #333}
+.pot:last-child{border:0}.pot label{font-weight:700;font-size:17px}.pot input{width:150px;margin:0;text-align:left;font-weight:800}
+.big3d{display:block;width:60%;min-width:200px;margin:6px auto 0;padding:13px;border:1px solid #111;border-radius:999px;font-size:18px;font-weight:800;cursor:pointer;background:linear-gradient(180deg,#8b5cf6,#5b21b6);color:#fff;text-align:center;box-shadow:0 5px 0 #2e1065,0 10px 16px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.4)}
+.big3d:active{transform:translateY(4px);box-shadow:0 1px 0 #2e1065,0 4px 10px rgba(0,0,0,.4)}
+.muted{color:#aaa;font-size:15px}
 </style>
 </head>
 <body>
@@ -42,7 +42,7 @@ input::placeholder{color:#888}
 <main>
 <div class="balance" id="home">
 <small>حساب الفلوس</small>
-<div class="amt"><input id="totalMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()"> <span style="font-size:30px;color:#bbb">DH</span> <button class="eye" id="eyeBtn" onclick="toggleEye()">👁</button></div>
+<div class="amt"><input id="totalMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()"> <span style="font-size:20px;color:#bbb">DH</span> <button class="eye" id="eyeBtn" onclick="toggleEye()">👁</button></div>
 <div class="remain">كتنقص: <b id="topDed">0 DH</b> • الباقي: <b id="topRemain">0 DH</b></div>
 </div>
 
@@ -50,7 +50,7 @@ input::placeholder{color:#888}
 <button class="pill" onclick="copyAll()">⋯ نسخ</button>
 </div>
 
-<div class="card" id="txCard"><h2>المعاملات <span style="float:left;color:#a78bfa;font-size:18px">الاقتطاعات</span></h2>
+<div class="card" id="txCard"><h2>المعاملات <span style="float:left;color:#a78bfa;font-size:15px">الاقتطاعات</span></h2>
 <input id="dedName" placeholder="الاسم">
 <input id="dedAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ">
 <button class="big3d" onclick="addDed()">زيد</button>
@@ -69,7 +69,7 @@ input::placeholder{color:#888}
 <select id="personDir"><option value="owes-me">كيسالني</option><option value="i-owe">كنسالو</option></select>
 <button class="big3d" onclick="addPerson()">زيد</button>
 <div id="peopleList" style="margin-top:10px"></div>
-<p style="font-size:21px;margin:14px 0 0">كيسالوني: <b id="owedToMe">0 DH</b> • كنسال: <b id="owedByMe">0 DH</b></p>
+<p style="font-size:17px;margin:12px 0 0">كيسالوني: <b id="owedToMe">0 DH</b> • كنسال: <b id="owedByMe">0 DH</b></p>
 </div>
 </main>
 <script>
