@@ -7,10 +7,8 @@
 <meta name="description" content="حساب الفلوس: الرصيد، الاقتطاعات كمعاملات، والتقسيم، وشحال كنسال الناس.">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:#12081f;color:#fff;padding-bottom:30px}
-header{padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between}
-.avatar{width:46px;height:46px;border-radius:50%;background:#1e1033;border:2px dashed #e5488a;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#8b5cf6}
-.welcome{flex:1;padding:0 10px}.welcome small{color:#bbb;font-size:13px}.welcome b{display:block;font-size:20px}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid #444;background:linear-gradient(180deg,#3a3a4a,#1c1c28);color:#fff;font-size:19px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 4px 10px rgba(0,0,0,.4)}
+header{padding:14px 16px 0;text-align:center}
+.welcome{padding:0}.welcome small{color:#bbb;font-size:13px}.welcome b{display:block;font-size:22px}
 main{max-width:520px;margin:0 auto;padding:8px 16px}
 .balance{text-align:center;padding:20px 8px 6px}.balance small{color:#bbb;font-size:14px}.balance .amt{font-size:36px;font-weight:900;letter-spacing:1px;margin-top:4px}
 .balance input{width:100%;background:transparent;border:0;border-bottom:2px solid #444;color:#fff;font-size:36px;font-weight:900;text-align:center;font-family:inherit;outline:none}
@@ -36,8 +34,7 @@ input::placeholder{color:#888}
 </head>
 <body>
 <header>
-<div style="display:flex;align-items:center"><div class="avatar">S</div><div class="welcome"><small>Welcome</small><b>Soufiane</b></div></div>
-<div><button class="icon-btn" onclick="document.getElementById('totalMoney').focus()">⌕</button> <button class="icon-btn">🔔</button></div>
+<div class="welcome"><small>Welcome</small><b>Soufiane</b></div>
 </header>
 <main>
 <div class="balance" id="home">
