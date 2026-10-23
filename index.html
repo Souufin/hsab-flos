@@ -10,16 +10,22 @@
 header{padding:14px 16px 0;text-align:center}
 .welcome{padding:0}.welcome small{color:#bbb;font-size:13px}.welcome b{display:block;font-size:22px}
 main{max-width:520px;margin:0 auto;padding:8px 16px}
-.balance{text-align:center;padding:20px 8px 6px}.balance small{color:#bbb;font-size:14px}.balance .amt{font-size:36px;font-weight:900;letter-spacing:1px;margin-top:4px}
-.balance input{width:100%;background:transparent;border:0;border-bottom:2px solid #444;color:#fff;font-size:36px;font-weight:900;text-align:center;font-family:inherit;outline:none}
-.balance input:focus{border-color:#8b5cf6}
+.balance{text-align:center;padding:20px 8px 6px}.balance small{color:#bbb;font-size:14px}
+.balances{display:flex;gap:12px;margin-top:10px}
+.bal-box{flex:1;background:#23232e;border-radius:18px;padding:14px}
+.bal-box small{color:#bbb;font-size:14px}.bal-box input{width:100%;background:transparent;border:0;border-bottom:2px solid #444;color:#fff;font-size:28px;font-weight:900;text-align:center;font-family:inherit;outline:none}
+.bal-box input:focus{border-color:#8b5cf6}
+.overall{font-size:24px;font-weight:900;margin-top:14px}
 .eye{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;vertical-align:middle}
 .remain{color:#bbb;font-size:15px;margin-top:8px}.remain b{color:#fff}
 .actions{display:flex;gap:10px;overflow-x:auto;padding:12px 0;scrollbar-width:none}.actions::-webkit-scrollbar{display:none}
 .pill{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:11px 17px;border-radius:999px;border:1px solid #555;background:linear-gradient(180deg,#3d3d4d,#22222e);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 10px rgba(0,0,0,.45);white-space:nowrap}
 .pill:active{transform:translateY(2px)}
 .card{background:#23232e;border-radius:18px;padding:16px;margin:14px 0}
-.card h2{margin:0 0 12px;font-size:19px}
+.card h2{margin:0;font-size:19px}
+.sec-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.sec-head .tot{color:#a78bfa;font-size:14px;white-space:nowrap}
+.sec-body{display:none;margin-top:12px}
 .tx{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #333}.tx:last-child{border:0}
 .tx .bar{border-right:3px solid #fff;padding-right:10px}.tx b{font-size:16px}.tx small{color:#aaa;font-size:13px}
 .tx .amt{font-size:16px;font-weight:800;white-space:nowrap}.tx button{background:none;border:0;color:#888;font-size:19px;cursor:pointer}
@@ -38,8 +44,11 @@ input::placeholder{color:#888}
 </header>
 <main>
 <div class="balance" id="home">
-<small>حساب الفلوس</small>
-<div class="amt"><input id="totalMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()"> <span style="font-size:20px;color:#bbb">DH</span> <button class="eye" id="eyeBtn" onclick="toggleEye()">👁</button></div>
+<div class="balances">
+<div class="bal-box"><small>نقداً</small><input id="totalMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()"><div style="color:#bbb;font-size:15px">DH</div></div>
+<div class="bal-box"><small>في البنك</small><input id="bankMoney" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="saveTotal()"><div style="color:#bbb;font-size:15px">DH</div></div>
+</div>
+<div class="overall">المجموع: <span id="overallTotal">0 DH</span> <button class="eye" id="eyeBtn" onclick="toggleEye()">👁</button></div>
 <div class="remain">كتنقص: <b id="topDed">0 DH</b> • الباقي: <b id="topRemain">0 DH</b></div>
 </div>
 
@@ -47,43 +56,51 @@ input::placeholder{color:#888}
 <button class="pill" onclick="copyAll()">⋯ نسخ</button>
 </div>
 
-<div class="card" id="txCard"><h2>المعاملات <span style="float:left;color:#a78bfa;font-size:15px">الاقتطاعات</span></h2>
+<div class="card" id="txCard"><div class="sec-head" onclick="toggleSec('txBody')"><h2>المعاملات</h2><span class="tot" id="txHeadTot">0 DH ▼</span></div>
+<div class="sec-body" id="txBody">
 <input id="dedName" placeholder="الاسم">
 <input id="dedAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ">
 <button class="big3d" onclick="addDed()">زيد</button>
 <div id="dedList" style="margin-top:10px"></div>
-</div>
+</div></div>
 
-<div class="card"><h2>فلوسي مقسّمة</h2>
+<div class="card"><div class="sec-head" onclick="toggleSec('potsBody')"><h2>مقسّمة</h2><span class="tot" id="potsHeadTot">0 DH ▼</span></div>
+<div class="sec-body" id="potsBody">
 <div class="pot"><label>الأساسي</label><input id="pot-main" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
 <div class="pot"><label>كنصرف منو</label><input id="pot-spend" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
 <div class="pot"><label>السلف</label><input id="pot-loan" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" onchange="savePots()"></div>
-</div>
+</div></div>
 
-<div class="card" id="peopleCard"><h2>كنسال الناس</h2>
+<div class="card" id="peopleCard"><div class="sec-head" onclick="toggleSec('peopleBody')"><h2>كنسال الناس</h2><span class="tot" id="peopleHeadTot">▼</span></div>
+<div class="sec-body" id="peopleBody">
 <input id="personName" placeholder="الاسم">
 <input id="personAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ">
 <select id="personDir"><option value="owes-me">كيسالني</option><option value="i-owe">كنسالو</option></select>
 <button class="big3d" onclick="addPerson()">زيد</button>
 <div id="peopleList" style="margin-top:10px"></div>
 <p style="font-size:17px;margin:12px 0 0">كيسالوني: <b id="owedToMe">0 DH</b> • كنسال: <b id="owedByMe">0 DH</b></p>
-</div>
+</div></div>
 </main>
 <script>
 function fmt(n){return (Math.round(n*100)/100).toLocaleString('en-US')+" DH";}
 function num(id){const v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
 let eyeHidden=false;
-function toggleEye(){eyeHidden=!eyeHidden;const el=document.getElementById('totalMoney');const v=el.value;el.type=eyeHidden?'password':'number';el.value=v;document.getElementById('eyeBtn').textContent=eyeHidden?'🙈':'👁';}
-function saveTotal(){localStorage.setItem('hsab_total',document.getElementById('totalMoney').value||'');renderDed();}
-function loadTotal(){const v=localStorage.getItem('hsab_total');if(v!=null)document.getElementById('totalMoney').value=v;}
-function savePots(){localStorage.setItem('hsab_pots',JSON.stringify({main:num('pot-main'),spend:num('pot-spend'),loan:num('pot-loan')}));}
-function loadPots(){try{const p=JSON.parse(localStorage.getItem('hsab_pots')||'{}');if(p.main!=null)document.getElementById('pot-main').value=p.main;if(p.spend!=null)document.getElementById('pot-spend').value=p.spend;if(p.loan!=null)document.getElementById('pot-loan').value=p.loan;}catch(e){}}
+function overall(){return num('totalMoney')+num('bankMoney');}
+function toggleSec(id){const el=document.getElementById(id);el.style.display=(el.style.display==='block')?'none':'block';}
+function renderPotsHead(){document.getElementById('potsHeadTot').textContent=fmt(num('pot-main')+num('pot-spend')+num('pot-loan'))+' ▼';}
+function toggleEye(){eyeHidden=!eyeHidden;['totalMoney','bankMoney'].forEach(id=>{const el=document.getElementById(id);const v=el.value;el.type=eyeHidden?'password':'number';el.value=v;});document.getElementById('eyeBtn').textContent=eyeHidden?'🙈':'👁';}
+function saveTotal(){localStorage.setItem('hsab_total',document.getElementById('totalMoney').value||'');localStorage.setItem('hsab_bank',document.getElementById('bankMoney').value||'');renderDed();}
+function loadTotal(){const v=localStorage.getItem('hsab_total');if(v!=null)document.getElementById('totalMoney').value=v;const b=localStorage.getItem('hsab_bank');if(b!=null)document.getElementById('bankMoney').value=b;}
+function savePots(){localStorage.setItem('hsab_pots',JSON.stringify({main:num('pot-main'),spend:num('pot-spend'),loan:num('pot-loan')}));renderPotsHead();}
+function loadPots(){try{const p=JSON.parse(localStorage.getItem('hsab_pots')||'{}');if(p.main!=null)document.getElementById('pot-main').value=p.main;if(p.spend!=null)document.getElementById('pot-spend').value=p.spend;if(p.loan!=null)document.getElementById('pot-loan').value=p.loan;}catch(e){}renderPotsHead();}
 function getDed(){try{return JSON.parse(localStorage.getItem('hsab_ded')||'[]')}catch(e){return[]}}
 function renderDed(){
  const items=getDed();const el=document.getElementById('dedList');
  let total=0;items.forEach(it=>total+=Number(it.amount));
  document.getElementById('topDed').textContent=fmt(total);
- document.getElementById('topRemain').textContent=fmt(num('totalMoney')-total);
+ document.getElementById('overallTotal').textContent=fmt(overall());
+ document.getElementById('topRemain').textContent=fmt(overall()-total);
+ document.getElementById('txHeadTot').textContent='-'+fmt(total)+' ▼';
  if(!items.length){el.innerHTML='<p class="muted">لا شيء.</p>';return;}
  el.innerHTML=items.map((it,i)=>`<div class="tx"><div class="bar"><b>${it.name}</b><br><small>${it.date||''}</small></div><div class="amt">-${fmt(Number(it.amount))} <button onclick="delDed(${i})">✕</button></div></div>`).join('');}
 function addDed(){
@@ -101,6 +118,7 @@ function renderPeople(){
  items.forEach(it=>{if(it.dir==='owes-me')toMe+=Number(it.amount);else byMe+=Number(it.amount);});
  document.getElementById('owedToMe').textContent=fmt(toMe);
  document.getElementById('owedByMe').textContent=fmt(byMe);
+ document.getElementById('peopleHeadTot').textContent=fmt(toMe)+' / '+fmt(byMe)+' ▼';
  if(!items.length){el.innerHTML='<p class="muted">لا شيء.</p>';return;}
  el.innerHTML=items.map((it,i)=>`<div class="tx"><div class="bar"><b>${it.name}</b><br><small>${it.dir==='owes-me'?'كيسالني':'كنسالو'}</small></div><div class="amt">${fmt(Number(it.amount))} <button onclick="delPerson(${i})">✕</button></div></div>`).join('');}
 function addPerson(){
@@ -113,7 +131,9 @@ function addPerson(){
  document.getElementById('personName').value='';document.getElementById('personAmount').value='';renderPeople();}
 function delPerson(i){const items=getPeople();items.splice(i,1);localStorage.setItem('hsab_people',JSON.stringify(items));renderPeople();}
 function copyAll(){
- const t='المجموع: '+fmt(num('totalMoney'))
+ const t='نقداً: '+fmt(num('totalMoney'))
+ +'\nفي البنك: '+fmt(num('bankMoney'))
+ +'\nالمجموع: '+fmt(overall())
  +'\nالأساسي: '+fmt(num('pot-main'))
  +'\nكنصرف منو: '+fmt(num('pot-spend'))
  +'\nالسلف: '+fmt(num('pot-loan'))
